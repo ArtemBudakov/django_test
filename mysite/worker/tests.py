@@ -2,7 +2,7 @@ from datetime import date
 
 from django.test import TestCase
 
-from mysite.worker.models import Worker, Department
+from worker.models import Worker, Department
 
 
 class WorkerModelTest(TestCase):
