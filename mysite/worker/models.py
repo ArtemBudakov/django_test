@@ -1,4 +1,18 @@
 from django.db import models
+from django.db.models import Subquery, Q
+
+"""
+    На основе файла models.py:
+    
+    1. Переопределить базовый менеджер у Worker так чтобы он возвращал только сотрудников - без директоров.
+    2. Реализовать класс прокси модели OrderedWorker(Worker)
+       а) реализовать в нем свойство startwork_year которое возвращает значение года начала работы сотрудника
+       б) сортировка по умолчанию для модели OrderedWorker должна выполняться по фамилии и дате начала работы
+    
+    3. Есть две модели. EducationOffice и GeneralOffice (см. models.py). 
+       Следует вынести общие поля в общую модель. 
+       Логика работы с EducationOffice и GeneralOffice не должна измениться.
+"""
 
 
 class WorkerManager(models.Manager):
@@ -10,7 +24,10 @@ class WorkerManager(models.Manager):
         Переопределенный кверисет возвращающий всех сотрудников без директоров
         """
 
-        raise NotImplementedError
+        directors = Director.objects.all()
+        workers = super().get_queryset().filter(~Q(id__in=Subquery(directors.values('id'))))
+
+        return workers
 
 
 class EducationOffice(models.Model):
@@ -95,7 +112,9 @@ class Director(Worker):
     """
     Директор
     """
-    # что здесь не хватает?
+    # что здесь не хватает?  todo manager?
+    objects = models.Manager()
+
     grade = models.IntegerField('Оценка', default=1)
 
     class Meta:
