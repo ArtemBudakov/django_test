@@ -30,7 +30,7 @@ class WorkerManager(models.Manager):
         return workers
 
 
-class Office(models.Manager):
+class Office(models.Model):
     """
     Офисное здание
     """
