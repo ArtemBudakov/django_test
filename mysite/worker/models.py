@@ -30,24 +30,31 @@ class WorkerManager(models.Manager):
         return workers
 
 
-class EducationOffice(models.Model):
+class Office(models.Manager):
+    """
+    Офисное здание
+    """
+    address = models.TextField('Адрес')
+    mail = models.CharField('Адрес почты', max_length=30, )
+
+    class Meta:
+        abstract = True
+
+
+class EducationOffice(Office):
     """
     Учебный офис
     """
-    address = models.TextField('Адрес')
-    mail = models.CharField('Адрес почты', max_length=30,)
     is_active = models.BooleanField(default=True)
 
     class Meta:
         db_table = 'education_office'
 
 
-class GeneralOffice(models.Model):
+class GeneralOffice(Office):
     """
     Головной офис
     """
-    address = models.TextField('Адрес')
-    mail = models.CharField('Адрес почты', max_length=30)
     name = models.TextField('Название головного офиса ')
 
     class Meta:
