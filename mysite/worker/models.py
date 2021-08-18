@@ -101,6 +101,11 @@ class OrderedWorker(Worker):
     Модель с  сотрудниками упорядоченными по фамилии и дате приема на работу
     """
 
+    """
+    2. Реализовать класс прокси модели OrderedWorker(Worker)
+       а) реализовать в нем свойство startwork_year которое возвращает значение года начала работы сотрудника
+       б) сортировка по умолчанию для модели OrderedWorker должна выполняться по фамилии и дате начала работы
+    """
     @property
     def startwork_year(self):
         """
@@ -110,6 +115,7 @@ class OrderedWorker(Worker):
 
     class Meta:
         proxy = True
+        ordering = ['first_name', 'startwork_date']
 
 
 class Director(Worker):
