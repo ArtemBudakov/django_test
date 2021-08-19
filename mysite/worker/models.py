@@ -1,5 +1,4 @@
 from django.db import models
-from django.db.models import Subquery, Q
 
 """
     На основе файла models.py:
@@ -24,8 +23,7 @@ class WorkerManager(models.Manager):
         Переопределенный кверисет возвращающий всех сотрудников без директоров
         """
 
-        directors = Director.objects.all()
-        workers = super().get_queryset().filter(~Q(id__in=Subquery(directors.values('id'))))
+        workers = super().get_queryset().filter(director__isnull=True)
 
         return workers
 
